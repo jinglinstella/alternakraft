@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heating/Cooling Method Details</title>
+    <style>
+
+    .back-btn {
+      border: gray 1px solid;
+      padding: 10px;
+      width: fit-content;
+      color: blue;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heating/Cooling Method Details</h1>
+
+<h2>Air Conditioners</h2>
+<table>
+    <tr>
+        <th>Count</th>
+        <th>Average BTU</th>
+        <th>Average RPM</th>
+        <th>Average EER</th>
+    </tr>
+    {% if air_conditioners %}
+    <tr>
+        <td>{{ air_conditioners.air_conditioner_count }}</td>
+        <td>{{ air_conditioners.avg_air_conditioner_btu|int }}</td>
+        <td>{{ air_conditioners.avg_air_conditioner_rpm|round(1) }}</td>
+        <td>{{ air_conditioners.avg_air_conditioner_eer|round(1) }}</td>
+    </tr>
+    {% endif %}
+</table>
+
+<h2>Heaters</h2>
+<table>
+    <tr>
+        <th>Count</th>
+        <th>Average BTU</th>
+        <th>Average RPM</th>
+        <th>Most Common Energy Source</th>
+    </tr>
+    <tr>
+        <td>{% if heaters %}{{ heaters.heater_count }}{% endif %}</td>
+        <td>{% if heaters %}{{ heaters.avg_heater_btu|int }}{% endif %}</td>
+        <td>{% if heaters %}{{ heaters.avg_heater_rpm|round(1) }}{% endif %}</td>
+        <td>{% if heaters %}{{ heaters.common_energy_source }}{% endif %}</td>
+    </tr>
+</table>
+
+<h2>Heat Pumps</h2>
+<table>
+    <tr>
+        <th>Count</th>
+        <th>Average BTU</th>
+        <th>Average RPM</th>
+        <th>Average SEER</th>
+        <th>Average HSPF</th>
+    </tr>
+    <tr>
+        <td>{% if heat_pumps %}{{ heat_pumps.heat_pump_count }}{% endif %}</td>
+        <td>{% if heat_pumps %}{{ heat_pumps.avg_heat_pump_btu|int }}{% endif %}</td>
+        <td>{% if heat_pumps %}{{ heat_pumps.avg_heat_pump_rpm|round(1) }}{% endif %}</td>
+        <td>{% if heat_pumps %}{{ heat_pumps.avg_heat_pump_seer|round(1) }}{% endif %}</td>
+        <td>{% if heat_pumps %}{{ heat_pumps.avg_heat_pump_hspf|round(1) }}{% endif %}</td>
+    </tr>
+</table>
+
+<div class="back-btn" onclick="history.back()">Back</div>
+</body>
+</html>

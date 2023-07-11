@@ -1,0 +1,326 @@
+<html>
+<head>
+    <style>
+        .rounded-input {
+            border-radius: 10px;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+        .form-row {
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .form-row h3 {
+            margin-right: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .checkbox-container {
+            border: 1px solid #808080;
+            margin-right: 10px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            padding-bottom: 5px;
+            padding-top: 5px;
+            padding-left: 5px;
+        }
+        .error {
+            border-color: red;
+        }
+        .error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+    <script>
+
+        function validateForm() {
+            let isValid = true;
+            const errorMessage = document.querySelector('.error-message');
+
+            const btu = document.querySelector('#btu');
+            const manu = document.querySelector('#manufacturerID');
+            const fan = document.querySelector('#fanRPM');
+
+            {#const airHandlerFields = document.querySelector('#airHandlerFields');#}
+            const ac = document.querySelector('#airConditionerCheckbox');
+            const heater = document.querySelector('#heaterCheckbox');
+            const heatPump = document.querySelector('#heatPumpCheckbox');
+
+            const airHandlerContainer = document.querySelector('#airHandlerContainer');
+            {#const airConditionerFields = document.querySelector('#airConditionerFields');#}
+
+            const eer = document.querySelector('#eer');
+
+            const heatPumpFields = document.querySelector('#heatPumpFields');
+            const seer = document.querySelector('#seer');
+            const hspf = document.querySelector('#hspf');
+
+            const tankSize = document.querySelector('#tankSize');
+            {#const temperature = document.querySelector('#temperature');#}
+
+            const type = document.querySelector('#applianceType');
+
+            if(type.value === 'Air handler'){
+                let isBtuValid = validateInput(btu);
+                let isManuValid = validateInput(manu);
+                let isFanValid = validateInput(fan);
+
+                if(isBtuValid && isManuValid && isFanValid){
+                    isValid = true;
+                } else {
+                    isValid = false;
+                }
+
+                let isAcValid = validateInputCheckbox(ac);
+                let isHeaterValid = validateInputCheckbox(heater);
+                let isHeatPumpValid = validateInputCheckbox(heatPump);
+                if(!isAcValid && !isHeaterValid && !isHeatPumpValid){
+                    airHandlerContainer.classList.add('error');
+                    //errorMessage.innerText = "Please select at least one of Air Conditioner, Heater or Heat Pump.";
+                    isValid = false;
+                } else {
+                    airHandlerContainer.classList.remove('error');
+                    if(isAcValid){
+                        let isEerValid = validateInput(eer);
+                        if(!isEerValid) {
+                            isValid = false;
+                        }
+                    }
+                    if(isHeatPumpValid){
+                        let isSeerValid = validateInput(seer);
+                        let isHspfValid = validateInput(hspf);
+                        if(!(isSeerValid && isHspfValid)) {
+                            heatPumpFields.classList.add('error');
+                            isValid = false;
+                        }
+                    }
+                }
+            }else{
+                let isBtuValid = validateInput(btu);
+                let isManuValid = validateInput(manu);
+
+                if(isBtuValid && isManuValid){
+                    isValid = true;
+                } else {
+                    isValid = false;
+                }
+                let isTankSizeValid = validateInput(tankSize);
+                {#let isTempValid = validateInput(temperature);#}
+                if(!isTankSizeValid){
+                    isValid = false;
+                }
+            }
+
+            if (!isValid) {
+                errorMessage.style.display = 'block';
+            } else {
+                errorMessage.style.display = 'none';
+            }
+
+            return isValid;
+        }
+
+        function validateInput(inputElement) {
+            if(inputElement.value ==='' || inputElement.value === null){
+                inputElement.classList.add('error');
+                return false;
+            } else {
+                inputElement.classList.remove('error');
+                return true;
+            }
+        }
+
+        function validateInputCheckbox(inputElement) {
+            if(!inputElement.checked){
+                inputElement.classList.add('error');
+                return false;
+            } else {
+                inputElement.classList.remove('error');
+                return true;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+
+            if (form != null) {
+                form.addEventListener('submit', (event) => {
+                    if (!validateForm()) {
+                        event.preventDefault();
+                    }
+                });
+            } else {
+                console.error('Cannot find the form element!');
+            }
+        });
+
+
+        function updateFields() {
+            const typeSelect = document.querySelector('#applianceType');
+            const airHandlerFields = document.querySelector('#airHandlerFields');
+            const waterHeaterFields = document.querySelector('#waterHeaterFields');
+
+            if(typeSelect.value === 'Air handler') {
+                airHandlerFields.classList.remove('hidden');
+                waterHeaterFields.classList.add('hidden');
+            } else if(typeSelect.value === 'Water heater') {
+                waterHeaterFields.classList.remove('hidden');
+                airHandlerFields.classList.add('hidden');
+            }
+        }
+
+        function updateAirHandlerSubFields() {
+            const airConditionerCheckbox = document.querySelector('#airConditionerCheckbox');
+            const heaterCheckbox = document.querySelector('#heaterCheckbox');
+            const heatPumpCheckbox = document.querySelector('#heatPumpCheckbox');
+            const airConditionerFields = document.querySelector('#airConditionerFields');
+            const heaterFields = document.querySelector('#heaterFields');
+            const heatPumpFields = document.querySelector('#heatPumpFields');
+
+            if (airConditionerCheckbox.checked) {
+                airConditionerFields.classList.remove('hidden');
+            } else {
+                airConditionerFields.classList.add('hidden');
+            }
+
+            if (heaterCheckbox.checked) {
+                heaterFields.classList.remove('hidden');
+            } else {
+                heaterFields.classList.add('hidden');
+            }
+
+            if (heatPumpCheckbox.checked) {
+                heatPumpFields.classList.remove('hidden');
+            } else {
+                heatPumpFields.classList.add('hidden');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h1 style="margin-bottom:5px;">Add appliance</h1>
+Please provide the details for the appliance.
+
+
+<form action="/submit_add_appliance" method="POST">
+<br>
+
+    {#onchange: control airHandlerFields and waterHeaterFields#}
+    <div class="form-row">
+        <h3>Appliance type: </h3>
+        <select id="applianceType" name="applianceType" style="margin-right: 10px" class=rounded-input onchange="updateFields()">
+            {% for type in types %}
+                <option value="{{ type }}">{{ type }}</option>
+            {% endfor %}
+        </select>
+
+        <h3>BTU: </h3>
+        <input id="btu" type="number" name="btu" class="rounded-input">
+    </div>
+
+    <div class="form-row">
+        <h3>Manufacturer: </h3>
+        <select id="manufacturerID" name="manufacturerID" class=rounded-input>
+            {% for manufacturer in manufacturers %}
+                <option value="{{ manufacturer[0] }}">{{ manufacturer[1] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-row">
+        <h3>Model name: </h3>
+        <input id="modelName" type="text" name="modelName">
+    </div>
+
+    {#when the form is first loaded, choose air handler by default#}
+    {#display air handler->air conditioner, heater, heat pump, Fan RPMs}
+    {#onchange: to control whether EER, energy source, SEER and HSPF should be displayed based on what the user chooses#}
+    {#airHandlerFields is controlled by onchange=updateFields()#}
+    <div id="airHandlerFields">
+
+        <div class="form-row">
+            <div id="airHandlerContainer" class="checkbox-container">
+                <div class="form-row">
+                    <input type="checkbox" style="margin-right: 10px;" id="airConditionerCheckbox" name="airConditioner" onchange="updateAirHandlerSubFields()">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Air conditioner</h3>
+                </div>
+
+                <div class="form-row">
+                    <input type="checkbox" style="margin-right: 10px;" id="heaterCheckbox" name="airConditioner" onchange="updateAirHandlerSubFields()">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Heater</h3>
+                </div>
+
+                <div class="form-row">
+                    <input type="checkbox" style="margin-right: 10px;" id="heatPumpCheckBox" name="airConditioner" onchange="updateAirHandlerSubFields()">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Heat pump</h3>
+                </div>
+            </div>
+
+            <div>
+                {#display EER: if air conditioner is checked#}
+                <div id="airConditionerFields" class="form-row hidden">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Energy efficiency ratio: </h3>
+                    <input id="eer" type="text" pattern="^\d*\.?\d{0,10}$" title="Decimal number to the tenth decimal point" name="EER">
+                </div>
+
+                {#display energy source: if heater is checked#}
+                <div id="heaterFields" class="form-row hidden">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Energy source: </h3>
+                    <select id="energySourceAh" name="energySourceAh" class=rounded-input>
+                        {% for energySourceAh in energySourceAhs %}
+                            <option value="{{ energySourceAh }}">{{ energySourceAh }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {#display SEER, HSPF: if heater is checked#}
+                <div id="heatPumpFields" class="form-row hidden">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Seasonal energy efficiency rating: </h3>
+                    <input id="seer" type="text" pattern="^\d*\.?\d{0,10}$" title="Decimal number to the tenth decimal point" style="margin-right: 20px;" name="SEER">
+                    <h3 style="margin-top: 5px; margin-bottom: 5px">Heating seasonal performance factor: </h3>
+                    <input id="hspf" type="text" pattern="^\d*\.?\d{0,10}$" title="Decimal number to the tenth decimal point" name="HSPF">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <h3>Fan RPMs: </h3>
+            <input id="fanRPM" type="number" name="fanRPM" class="rounded-input">
+        </div>
+
+    </div>
+
+    <div id="waterHeaterFields" class="hidden">
+
+        <div class="form-row">
+            <h3 style="margin-top: 5px; margin-bottom: 5px">Energy source: </h3>
+            <select id="energySourceWh" name="energySourceWh" class=rounded-input>
+                {% for energySourceWh in energySourceWhs %}
+                    <option value="{{ energySourceWh }}">{{ energySourceWh }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-row">
+            <h3>Tank size(gallons): </h3>
+            <input id="tankSize" type="text" pattern="^\d*\.?\d{0,10}$" title="Decimal number to the tenth decimal point" name="tankSize">
+        </div>
+{#        <div class="form-row">#}
+{#            <h3>BTU rating: </h3>#}
+{#            <input type="number" name="btuRating">#}
+{#        </div>#}
+        <div class="form-row">
+            <h3>Temperature: </h3>
+            <input id="temperature" type="number" name="temperature" class="rounded-input">
+        </div>
+    </div>
+
+    <input type="submit" style="margin-top: 20px;" value="Add" />
+    <p class="error-message">Please fill in the mandatory fields to continue.</p>
+</form>
+</body>
+</html>

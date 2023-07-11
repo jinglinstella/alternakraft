@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <title>Top 25 popular manufacturers drilldown</title>
+  </head>
+  <style>
+    .back-btn {
+      border: gray 1px solid;
+      padding: 10px;
+      width: fit-content;
+      color: blue;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+
+    table, th, td {
+      border:1px solid black;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: center;
+    }
+
+  </style>
+  <body>
+    <h1>Top 25 popular manufacturers - Drilldown</h1>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Water Heater Count</th>
+        <th>Air Handler Count</th>
+        <th>Air Handler Air Conditioner Count</th>
+        <th>Air Handler Heater Count</th>
+        <th>Air Handler Heat Pump Count</th>
+      </tr>
+      {% for manu in data %}
+          <tr>
+            <td>{{manu[0]}}</td>
+            <td>{{manu[1]}}</td>
+             <td>{{manu[2]}}</td>
+             <td>{{manu[3]}}</td>
+             <td>{{manu[4]}}</td>
+             <td>{{manu[5]}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

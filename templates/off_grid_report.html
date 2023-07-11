@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <title>Off-the-grid household dashboard</title>
+  </head>
+  <style>
+    table, th, td {
+      border:1px solid black;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: center;
+    }
+
+    .back-btn {
+      border: gray 1px solid;
+      padding: 10px;
+      width: fit-content;
+      color: blue;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+  </style>
+  <body>
+    <h1>Off-the-grid household dashboard</h1>
+    <div class="back-btn" onclick="history.back()">Back</div>
+    <h2>1. State with the most off-the-grid households:</h2>
+    <table>
+      <tr>
+        <th>State</th>
+        <th>Count</th>
+      </tr>
+      {% for state in data1 %}
+          <tr>
+            <td><a>{{state[0]}}</a></td>
+            <td>{{state[1]}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+    <h2>2. Average battery storage capacity per battery for off-the-grid households:</h2>
+    <table>
+      <tr>
+        <th>Avg Value</th>
+      </tr>
+      {% for value in data2 %}
+          <tr>
+            <td><a>{{value[0]}}</a></td>
+          </tr>
+      {% endfor %}
+    </table>
+   <h2>3. Percentages per power gen type for off-the-grid households:</h2>
+    <table>
+      <tr>
+        <th>Power Generation Type</th>
+        <th>Percentage</th>
+      </tr>
+      {% for value in data3 %}
+          <tr>
+            <td><a>{{value[0]}}</a></td>
+            <td>{{value[1]}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+  <h2>4. Off-the-Grid Household Types:</h2>
+    <table>
+      <tr>
+        <th>Household Type</th>
+        <th>Percentage</th>
+      </tr>
+      {% for row in data4 %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1]|round(1)}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+
+    <h2>5. Water Heater Tank Size:</h2>
+    <table>
+      <tr>
+        <th>Average Tank Size (Off-the-Grid)</th>
+        <th>Average Tank Size (On-the-Grid)</th>
+      </tr>
+      <tr>
+        <td>{{ data5[0][0]|round(1) if data5[0][0] else 'No data available' }}</td>
+        <td>{{ data5[1][0]|round(1) if data5|length > 1 else 'No data available' }}</td>
+
+      </tr>
+    </table>
+
+    <h2>6. BTU info for all off-the-grid households:</h2>
+    <table>
+      <tr>
+        <th>Appliance Type</th>
+        <th>Minimum BTU</th>
+        <th>Average BTU</th>
+        <th>Maximum BTU</th>
+      </tr>
+      {% for row in data6 %}
+      <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

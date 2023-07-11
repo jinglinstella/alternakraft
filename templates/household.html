@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <title>Enter Household Info</title>
+  </head>
+  <style>
+    .input-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 5px 0;
+
+      .input-label {
+        margin-right: 10px;
+      }
+    }
+
+
+    .public-utility-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 5px 0;
+
+      .public-utility-selector {
+        border: 1px solid black;
+        padding: 10px 15px;
+        width: fit-content;
+        margin-left: 5px;
+      }
+    }
+
+
+  </style>
+  <script>
+      function onClickNoHeat() {
+        var checkBox = document.getElementById("no_heat_selector");
+        var input = document.getElementById("heat_thermostat_input");
+
+        if (checkBox.checked == true){
+          input.value = "";
+          input.disabled = true;
+        }
+        else {
+            input.disabled = false;
+        }
+      }
+
+      function onClickNoCooling() {
+         var checkBox = document.getElementById("no_cooling_selector");
+         var input = document.getElementById("cooling_thermostat_input");
+
+         if (checkBox.checked == true){
+           input.value = "";
+           input.disabled = true;
+         }
+         else {
+           input.disabled = false;
+         }
+      }
+
+  </script>
+  <body>
+    <h1>Enter Household Info</h1>
+    <form action="/add_household" method="post" id="household-form">
+      <div class="input-row">
+        <div class="input-label">Please enter your email address:</div>
+        <input type="email" name="email" placeholder="" required>
+      </div>
+      <div class="input-row">
+        <div class="input-label">Please enter your five digit postal code:</div>
+        <input type="text" name="postal_code" placeholder="" pattern="[0-9]*" required>
+      </div>
+      <br>
+      <div class="input-row">
+        <label class="input-label">Please enter the following details for your household.</label>
+      </div>
+
+       <div class="input-row">
+        <label class="input-label">Home type:</label>
+        <select name="home_type" id="home_type" required>
+            {% for type in data.household_types %}
+            <option value="{{type[0
+            ]}}">{{type[1]}}</option>
+            {% endfor %}
+        </select>
+      </div>
+
+       <div class="input-row">
+         <label class="input-label">Square footage:</label>
+         <input type="number" name="square_footage" step="1" placeholder="" required>
+      </div>
+
+       <div class="input-row">
+         <label class="input-label">Thermostat setting for heating:</label>
+         <input type="number" name="heat_thermostat" step="1" id="heat_thermostat_input" placeholder="">
+         <input type="checkbox" name="no_heat" id="no_heat_selector" value="no_heat_thermostat" onclick="onClickNoHeat()"><label>No heat</label>
+       </div>
+
+       <div class="input-row">
+         <label class="input-label">Thermostat setting for cooling</label>
+         <input type="number" name="cool_thermostat" step="1" id="cooling_thermostat_input" placeholder="">
+         <input type="checkbox" name="no_cooling" id="no_cooling_selector" value="no_cooling_thermostat" onclick="onClickNoCooling()"><label>No cooling</label>
+       </div>
+
+       <div class="input-row public-utility-container">
+          <label class="input-label">public utilities (If none, leave unchecked):</label>
+          <div class="public-utility-selector">
+            {% for utility in data.public_utilities %}
+                <input type="checkbox" name="{{utility[1]}}" value="{{utility[0]}}">
+                <label>{{utility[1]}}</label>
+                <br><br>
+            {% endfor %}
+          </div>
+       </div>
+      <input type="submit" id="next-btn"  value="Next">
+    </form>
+  </body>
+</html>

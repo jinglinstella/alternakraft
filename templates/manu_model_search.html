@@ -1,0 +1,30 @@
+<head>
+    <title>Manufacturer/model search</title>
+</head>
+<body>
+
+<h1>Manufacturer/model search</h1>
+
+<style>
+	table, th, td{
+		border: 1px solid black;
+	}
+    .highlight {
+        background-color: lightgreen;
+    }
+</style>
+
+<table>
+	<th>Manufacturer</th>
+	<th>Model</th>
+
+    {% for line in results %}
+        <tr>
+            <td class="{{ 'highlight' if line[0] in highlights_manu }}">{{line[0]}}</td>
+            <td class="{{ 'highlight' if line[1] in highlights_model }}">{{line[1]}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

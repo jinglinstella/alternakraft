@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>Household averages by radius</title>
+  </head>
+  <style>
+    .input-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 5px 0;
+
+      .input-label {
+        margin-right: 10px;
+      }
+    }
+
+    .back-btn {
+      border: gray 1px solid;
+      padding: 10px;
+      width: fit-content;
+      color: blue;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+
+
+    table, th, td {
+      border:1px solid black;
+    }
+
+    th, td {
+      padding: 5px;
+      text-align: center;
+    }
+
+  </style>
+  <body>
+    <h1>Household averages by radius</h1>
+    <div class="back-btn" onclick="history.back()">Back</div>
+     <form action="/search_by_radius" method="post" id="search-by-radius-form">
+      <div class="input-row">
+        <div class="input-label">Please enter your postalcode:</div>
+        <input type="text" name="postal_code" placeholder="" pattern="[0-9]*" required>
+      </div>
+      <div class="input-row">
+        <label class="input-label">Radius:</label>
+        <select name="radius" required>
+            <option value="0">0</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="250">250</option>
+        </select>
+      </div>
+      <input type="submit" value="Search">
+     </form>
+
+    {% if data|length %}
+    <table>
+      <tr>
+        <th>Searched Zip</th>
+        <th>Searched Radius</th>
+        <th>Household Type</th>
+        <th>Total Household Count</th>
+        <th>Average Square Footage</th>
+        <th>Average Heat Setting</th>
+        <th>Average Cool Setting</th>
+      </tr>
+      {% for result in data.aggregate1 %}
+          <tr>
+             <td>{{result[0]}}</td>
+             <td>{{result[1]}}</td>
+             <td>{{result[2]}}</td>
+             <td>{{result[3]}}</td>
+             <td>{{result[4]}}</td>
+             <td>{{result[5]}}</td>
+             <td>{{result[6]}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+
+    <br>
+    <br>
+    <table>
+      <tr>
+        <th>Searched Zip</th>
+        <th>Searched Radius</th>
+        <th>Utilities</th>
+        <th>Off the Grid Count</th>
+        <th>Average Monthly KWH</th>
+        <th>Most Common Power GenType</th>
+        <th>Most Common Power GenType Count</th>
+        <th>Count of Household with Battery Storage</th>
+      </tr>
+      {% for result in data.aggregate2 %}
+          <tr>
+              <td>{{result[0]}}</td>
+              <td>{{result[1]}}</td>
+              <td>{{result[2]}}</td>
+              <td>{{result[3]}}</td>
+              <td>{{result[4]}}</td>
+              <td>{{result[5]}}</td>
+              <td>{{result[6]}}</td>
+              <td>{{result[7]}}</td>
+          </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </body>
+</html>

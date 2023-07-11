@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <h1 style="margin-bottom:5px;">Add power generation</h1>
+    Please provide power generation details.
+    <style>
+        .input-row {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          margin: 5px 0;
+
+          .input-label {
+            margin-right: 10px;
+          }
+        }
+    </style>
+
+    <form action="/submit_add_power_gen" method="POST">
+    <br>
+
+        <div class="form-row">
+            <h3>Type: </h3>
+            <select id="powerGenType" name="powerGenType" style="margin-right: 10px" class=rounded-input onchange="updateFields()">
+                {% for powerGenType in powerGenTypes %}
+                    <option value="{{ powerGenType }}">{{ powerGenType }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-row">
+            <h3>Monthly kWh: </h3>
+            <input id="monthlyKwh" type="number" name="monthlyKwh" class="rounded-input">
+        </div>
+
+        <div class="form-row">
+            <h3>Storage kWh: </h3>
+            <input id="batteryStorageCapacityKwh" type="number" name="batteryStorageCapacityKwh" class="rounded-input">
+        </div>
+
+        <input type="submit" style="margin-top: 20px;" value="Add" />
+
+    </form>
+</body>
+</html>
