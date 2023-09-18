@@ -12,8 +12,8 @@ A web app to collect & analyze power source data from US households
 
 # Setting Up Local Environment
 1. postgresql db:
-- install docker
-- run `docker-compose up -d`  in the docker-compose.yaml path.
+- Install docker
+- Run `docker-compose up -d`  in the docker-compose.yaml path.
 - You can connect to the default postgres db using dbeaver and then create your own db 
 or excute into the docker container, run psql and create the db via command line.
 - Connection Info Should be:
