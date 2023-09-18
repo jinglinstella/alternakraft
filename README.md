@@ -1,3 +1,16 @@
+# Altpower
+A web app to collect & analyze power source data from US households
+
+# Features
+- [x] User registration
+- [x] Account login and logout
+- [x] Enter household info
+- [x] Add appliance and power generation
+- [x] View appliance/power generation listing
+- [x] View various reports with statistics
+- [x] Calculate household averages by radius
+
+# Setting Up Local Environment
 1. postgresql db:
 - install docker
 - run `docker-compose up -d`  in the docker-compose.yaml path.
